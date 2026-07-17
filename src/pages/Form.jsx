@@ -26,7 +26,7 @@ function ScraperForm() {
 
     try {
       const response = await fetch(
-        "http://localhost:5678/webhook-test/google-maps",
+        "http://localhost:5678/webhook/google-maps",
         {
           method: "POST",
           headers: {
@@ -37,22 +37,17 @@ function ScraperForm() {
             keyword: formData.keyword,
             location: formData.location,
             maxResults: Number(formData.maxResults),
-            output: formData.output,
           }),
         }
       );
 
       const result = await response.json();
+      console.log(result);
 
-      if (result.success) {
-        alert("✅ Scraping started successfully!");
-        console.log(result);
-      } else {
-        alert(result.message || "Something went wrong.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Server error");
+      
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred during scraping.");
     }
   };
 
@@ -110,19 +105,9 @@ function ScraperForm() {
 
           <div>
             <label className="block font-medium mb-2">
-              Output
+              Output : CVS
             </label>
 
-            <select
-              name="output"
-              value={formData.output}
-              onChange={handleChange}
-              className="w-full border rounded-xl p-3"
-            >
-              <option value="json">JSON</option>
-              <option value="csv">CSV</option>
-              <option value="googleSheets">Google Sheets</option>
-            </select>
           </div>
 
           <button
